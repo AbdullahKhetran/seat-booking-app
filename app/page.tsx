@@ -50,7 +50,7 @@ export default function Home() {
         </Flex>
       </Flex>
 
-      <Flex gap={"4"}>
+      <Flex gap={"4"} wrap={"wrap"}>
         {seats.map(s => <SeatDisplayer key={s.name} seat={s} helper={updateSeat} />)}
       </Flex>
 
