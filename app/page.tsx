@@ -25,10 +25,17 @@ export default function Home() {
   const [totalAmount, setTotalAmount] = useState(0)
   const [selectedSeat, setSelectedSeat] = useState("None")
 
+  // const [selectedSeats, setSelectedSeats] = useState<Seat[]>([])
+
   // updates screen ui by changing state
-  function updateScreen(seat: Seat) {
+  function selectSeat(seat: Seat) {
     setSelectedSeat(seat.name)
     setTotalAmount(totalAmount + seat.price)
+  }
+
+  function deSelectSeat(seat: Seat) {
+    setSelectedSeat("None")
+    setTotalAmount(totalAmount - seat.price)
   }
 
   return (
@@ -52,7 +59,13 @@ export default function Home() {
 
       {/* Seats */}
       <Flex gap={"4"} wrap={"wrap"}>
-        {seats.map(s => <SeatDisplayer key={s.name} seat={s} helper={updateScreen} />)}
+        {seats.map(s =>
+          <SeatDisplayer
+            key={s.name}
+            seat={s}
+            select={selectSeat}
+            deselect={deSelectSeat}
+          />)}
       </Flex>
 
       {/* Button for color mode */}
@@ -68,11 +81,13 @@ export default function Home() {
 // Props for seat displayer component
 type Props = {
   seat: Seat
-  helper: (param: Seat) => void
+  select: (param: Seat) => void
+  deselect: (param: Seat) => void
+
 }
 
-function SeatDisplayer({ seat, helper }: Props) {
-  const [buttonDisabled, SetButtonDisabled] = useState(false) // to disable button
+function SeatDisplayer({ seat, select, deselect }: Props) {
+  const [selected, SetSelected] = useState(false) // to disable button
   const [seatBgLight, setSeatBgLight] = useState("green.200") // seat colors in light mode
   const [seatBgDark, setSeatBgDark] = useState("green.900") // seat colors in dark mode
 
@@ -80,11 +95,16 @@ function SeatDisplayer({ seat, helper }: Props) {
 
   // disable button and updates ui
   const handleButtonClick = () => {
-    if (!buttonDisabled) {
-      SetButtonDisabled(true)
-      helper(seat)
+    if (!selected) {
+      SetSelected(true)
+      select(seat)
       setSeatBgLight("red.200")
       setSeatBgDark("red.900")
+    } else if (selected) {
+      SetSelected(false)
+      deselect(seat)
+      setSeatBgLight("green.200")
+      setSeatBgDark("green.900")
     }
   }
 
@@ -96,7 +116,7 @@ function SeatDisplayer({ seat, helper }: Props) {
       rounded={"md"}
       as={"button"}
       onClick={handleButtonClick}
-      disabled={buttonDisabled}
+    // disabled={buttonDisabled}
     >
       <Armchair size={66} />
 
