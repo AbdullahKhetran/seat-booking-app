@@ -25,15 +25,15 @@ export default function Home() {
   const [totalAmount, setTotalAmount] = useState(0)
   const [selectedSeat, setSelectedSeat] = useState("None")
 
-
-  function updateSeat(seat: Seat) {
+  // updates screen ui by changing state
+  function updateScreen(seat: Seat) {
     setSelectedSeat(seat.name)
     setTotalAmount(totalAmount + seat.price)
   }
 
-
   return (
     <Flex direction={"column"} m={4} gap={"4"}>
+      {/* Screen */}
       <Flex
         direction={"column"}
         p={4} my={2} rounded={"md"}
@@ -50,10 +50,12 @@ export default function Home() {
         </Flex>
       </Flex>
 
+      {/* Seats */}
       <Flex gap={"4"} wrap={"wrap"}>
-        {seats.map(s => <SeatDisplayer key={s.name} seat={s} helper={updateSeat} />)}
+        {seats.map(s => <SeatDisplayer key={s.name} seat={s} helper={updateScreen} />)}
       </Flex>
 
+      {/* Button for color mode */}
       <Button onClick={toggleColorMode}
         width={"max-content"}
       >
@@ -63,22 +65,20 @@ export default function Home() {
   )
 }
 
+// Props for seat displayer component
 type Props = {
   seat: Seat
   helper: (param: Seat) => void
 }
 
 function SeatDisplayer({ seat, helper }: Props) {
-
-
-
-  const [buttonDisabled, SetButtonDisabled] = useState(false)
-  const [seatBgLight, setSeatBgLight] = useState("green.200")
-  const [seatBgDark, setSeatBgDark] = useState("green.900")
+  const [buttonDisabled, SetButtonDisabled] = useState(false) // to disable button
+  const [seatBgLight, setSeatBgLight] = useState("green.200") // seat colors in light mode
+  const [seatBgDark, setSeatBgDark] = useState("green.900") // seat colors in dark mode
 
   const seatBackground = useColorModeValue(seatBgLight, seatBgDark)
 
-
+  // disable button and updates ui
   const handleButtonClick = () => {
     if (!buttonDisabled) {
       SetButtonDisabled(true)
@@ -101,7 +101,6 @@ function SeatDisplayer({ seat, helper }: Props) {
       <Armchair size={66} />
 
       <Flex direction={"column"} >
-
         <Flex justifyContent={"space-between"} gap={"12"}>
           <Text>Seat: </Text>
           <Text>{seat.name}</Text>
@@ -111,7 +110,6 @@ function SeatDisplayer({ seat, helper }: Props) {
           <Text>Price: </Text>
           <Text>${seat.price}</Text>
         </Flex>
-
       </Flex>
 
     </Flex>
