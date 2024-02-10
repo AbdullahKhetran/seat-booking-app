@@ -5,16 +5,13 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 The project is deployed [here](https://seat-booking-app-rho.vercel.app/) using [Vercel](https://vercel.com/dashboard)
 
 
+It is also [deployed](https://main.d1j54lvil0i38q.amplifyapp.com/) using AWS
+
+
 ## Running Locally
 
-First, run the development server:
+1. Run `npm i` to install modules
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+2. Run `npm run dev` to start the development server
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Vist [localhost](http://localhost:3000) with your browser to see the result
